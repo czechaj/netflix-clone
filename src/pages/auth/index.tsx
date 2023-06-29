@@ -1,13 +1,10 @@
 import { useState, useCallback } from "react";
-import { useRouter } from "next/router";
 import { GithubIcon, GoogleIcon, Logo } from "@/components/icons";
 import { Input } from "@/components/ui-elements";
 import { signIn } from "next-auth/react";
 import axios from "axios";
 
 export default function AuthPage() {
-  const router = useRouter();
-
   const [mail, setMail] = useState<string>("");
   const [userName, setUserName] = useState<string>("");
   const [password, setPassword] = useState<string>("");
@@ -23,14 +20,12 @@ export default function AuthPage() {
       await signIn("credentials", {
         email: mail,
         password,
-        redirect: false,
-        callbackUrl: "/",
+        callbackUrl: "/profiles",
       });
-      router.push("/");
     } catch (error) {
       console.error(error);
     }
-  }, [mail, router, password]);
+  }, [mail, password]);
 
   const register = useCallback(async () => {
     try {
@@ -94,11 +89,14 @@ export default function AuthPage() {
             </button>
 
             <div className="flex justify-center gap-x-3 my-5">
-              <span className="bg-white p-2 cursor-pointer h-10 w-10 rounded-full flex items-center justify-center">
+              <span
+                onClick={() => signIn("google", { callbackUrl: "/profiles" })}
+                className="bg-white p-2 cursor-pointer h-10 w-10 rounded-full flex items-center justify-center"
+              >
                 <GoogleIcon />
               </span>
               <span
-                onClick={() => signIn("github", { callbackUrl: "/" })}
+                onClick={() => signIn("github", { callbackUrl: "/profiles" })}
                 className="bg-white p-2 cursor-pointer h-10 w-10 rounded-full flex items-center justify-center"
               >
                 <GithubIcon />
