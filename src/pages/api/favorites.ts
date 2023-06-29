@@ -9,14 +9,16 @@ export default async function handler(
 ) {
   try {
     if (req.method !== "GET") {
-      const { currentUser } = await serverAuth(req, res);
-
-      const usersFavorites = await prismaDb.movie.findMany({
-        where: { id: { in: currentUser.favoriteIds } },
-      });
-
-      return res.status(200).json(usersFavorites);
+      return res.status(405).end();
     }
+
+    const { currentUser } = await serverAuth(req, res);
+
+    const usersFavorites = await prismaDb.movie.findMany({
+      where: { id: { in: currentUser.favoriteIds } },
+    });
+
+    return res.status(200).json(usersFavorites);
   } catch (e) {
     console.error(e);
     return res.status(400).end();

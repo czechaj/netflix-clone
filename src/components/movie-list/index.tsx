@@ -1,5 +1,5 @@
-import { Movie } from "@prisma/client";
 import { FC } from "react";
+import { Movie } from "@prisma/client";
 import { MovieCard } from "../movie-card";
 
 type Props = {
@@ -10,7 +10,7 @@ type Props = {
 export const MovieList: FC<Props> = (props) => {
   const { data: movieList, title } = props;
 
-  if (!movieList) return null;
+  if (!movieList.length) return null;
   return (
     <div className="flex-col gap-6 p-4 mt-8">
       <h1 className="text-3xl font-semibold text-white">{title}</h1>

@@ -3,12 +3,14 @@ import Image from "next/image";
 import { FC } from "react";
 import { PlayIcon } from "@/components/icons";
 import { FavoriteButton } from "../favorite-button";
+import { useRouter } from "next/router";
 
 type Props = {
   data: Movie;
 };
 
 export const MovieCard: FC<Props> = (props) => {
+  const router = useRouter();
   const { data: movie } = props;
 
   if (!movie) return null;
@@ -33,7 +35,7 @@ export const MovieCard: FC<Props> = (props) => {
         <div className="flex flex-col gap-3  z-10 bg-zinc-800 p-2 lg:p-4 absolute w-full transition shadow-md rounded-b-md">
           <div className="flex gap-4">
             <span
-              onClick={() => {}}
+              onClick={() => router.push(`/watch/${movie.id}`)}
               className="text-white w-fit cursor-pointer hover:text-neutral-400 transition"
             >
               <PlayIcon />

@@ -1,6 +1,6 @@
-import { useState, useMemo, useCallback, FC } from "react";
+import { useMemo, useCallback, FC } from "react";
 import axios from "axios";
-import { CheckIcon, PlusIcon } from "../icons";
+import { CheckIcon, LoadingIcon, PlusIcon } from "../icons";
 import useFavorites from "@/hooks/useFavorites";
 import useCurrentUser from "@/hooks/useCurrentUser";
 import { User } from "@prisma/client";
@@ -11,10 +11,14 @@ type Props = {
 
 export const FavoriteButton: FC<Props> = (props) => {
   const { movieId } = props;
-  console.log("🚀 ~ movieId:", movieId);
 
-  const { mutate: mutateFavorites } = useFavorites();
-  const { data: currentUser, mutate: mutateUser } = useCurrentUser();
+  const { mutate: mutateFavorites, isValidating: validatingFavorites } =
+    useFavorites();
+  const {
+    data: currentUser,
+    mutate: mutateUser,
+    isValidating: validatingUser,
+  } = useCurrentUser();
 
   const isInFavorites = useMemo(() => {
     return currentUser?.favoriteIds?.includes(movieId);
@@ -40,7 +44,13 @@ export const FavoriteButton: FC<Props> = (props) => {
       onClick={toggleFavorites}
       className="text-white border-[3.5px] hover:text-neutral-400 hover:border-neutral-400 transition rounded-full flex items-center justify-center"
     >
-      {isInFavorites ? <CheckIcon /> : <PlusIcon />}
+      {validatingFavorites || validatingUser ? (
+        <LoadingIcon />
+      ) : isInFavorites ? (
+        <CheckIcon />
+      ) : (
+        <PlusIcon />
+      )}
     </div>
   );
 };

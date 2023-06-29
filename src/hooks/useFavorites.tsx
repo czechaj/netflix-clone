@@ -3,7 +3,7 @@ import fetcher from "@/lib/fetcher";
 import { Movie } from "@prisma/client";
 
 const useFavorites = () => {
-  const { data, error, isLoading, mutate } = useSwr<Movie[]>(
+  const { data, error, isLoading, mutate, isValidating } = useSwr<Movie[]>(
     "/api/favorites",
     fetcher,
     {
@@ -13,7 +13,7 @@ const useFavorites = () => {
     }
   );
 
-  return { data, error, isLoading, mutate };
+  return { data, error, isLoading, mutate, isValidating };
 };
 
 export default useFavorites;

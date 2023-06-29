@@ -7,3 +7,4 @@ export * from "./play";
 export * from "./plus";
 export * from "./check";
 export * from "./out";
+export * from "./loading";
