@@ -1,4 +1,4 @@
-import { useEffect, useCallback, useState } from "react";
+import { useEffect, useCallback, useState, FC } from "react";
 import { ChevronDownIcon, Logo } from "../icons";
 import { NavbarItem } from "./navbar-item";
 import { MobileDropdown } from "./mobile-dropdown";
@@ -9,7 +9,13 @@ import { AccountDropdown } from "./account-dropdown";
 
 const TOP_OFFSET = 60;
 
-export const Navbar = () => {
+type Props = {
+  userName: string;
+};
+
+export const Navbar: FC<Props> = (props) => {
+  const { userName } = props;
+
   const [showMobileDropdown, setShowMobileDropdown] = useState(false);
   const [showAccountDropdown, setShowAccountDropdown] = useState(false);
   const [showBackground, setShowBackground] = useState(false);
@@ -36,9 +42,9 @@ export const Navbar = () => {
   );
 
   return (
-    <nav className="w-full fixed z-30 ">
+    <nav className="w-full h-20 fixed z-30 ">
       <div
-        className={`flex flex-row items-center pr-12 md:px-16 transition duration-500 ${
+        className={`flex pl-4 lg:pl-auto flex-row items-center pr-12 h-full md:px-16 transition duration-500 ${
           showBackground ? "bg-zinc-900 bg-opacity-90" : ""
         }`}
       >
@@ -92,19 +98,13 @@ export const Navbar = () => {
             >
               <ChevronDownIcon />
             </span>
-            <AccountDropdown visible={showAccountDropdown} />
+            <AccountDropdown
+              userName={userName || ""}
+              visible={showAccountDropdown}
+            />
           </div>
         </div>
       </div>
     </nav>
   );
 };
-
-/* 
-       <button
-            onClick={() => signOut()}
-            className="bg-white rounded-sm px-2"
-          >
-            Sign out
-          </button> * 
-*/

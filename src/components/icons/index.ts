@@ -2,3 +2,8 @@ export * from "./logo";
 export * from "./google";
 export * from "./github";
 export * from "./chevron-down";
+export * from "./info";
+export * from "./play";
+export * from "./plus";
+export * from "./check";
+export * from "./out";
